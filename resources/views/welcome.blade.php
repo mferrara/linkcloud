@@ -13,11 +13,7 @@
 
     <style>
         body, html {
-            background: url('/img/spark-bg.png');
-            background-repeat: repeat;
-            background-size: 300px 200px;
-            height: 100%;
-            margin: 0;
+
         }
 
         .full-height {
@@ -86,7 +82,7 @@
 
         <div class="flex-fill flex-center">
             <h1 class="text-center">
-                <img src="/img/color-logo.png">
+                <h1>LinkCloud</h1>
             </h1>
         </div>
     </div>
