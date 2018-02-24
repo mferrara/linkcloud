@@ -11,6 +11,17 @@
 
                     <div class="panel-body">
                         Welcome to LinkCloud - there's nothing here yet!
+
+                        <div class="panel panel-default">
+                        	  <div class="panel-heading">
+                        			<h3 class="panel-title">Stats</h3>
+                        	  </div>
+                        	  <div class="panel-body">
+                                  Links: {!! Auth::user()->links()->count() !!}<br>
+                                  Domains: {!! Auth::user()->domains()->count() !!}<br>
+                                  Anchors: {!! Auth::user()->anchors()->count() !!}
+                        	  </div>
+                        </div>
                     </div>
                 </div>
             </div>
