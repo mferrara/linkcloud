@@ -47,4 +47,19 @@ class User extends SparkUser
         'trial_ends_at' => 'datetime',
         'uses_two_factor_auth' => 'boolean',
     ];
+
+    public function domains()
+    {
+        return $this->hasMany(Domain::class);
+    }
+
+    public function links()
+    {
+        return $this->hasMany(Link::class);
+    }
+
+    public function anchors()
+    {
+        return $this->hasMany(Anchor::class);
+    }
 }
