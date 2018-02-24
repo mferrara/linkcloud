@@ -11,6 +11,8 @@ class LinksTableSeeder extends Seeder
      */
     public function run()
     {
+        $user = \App\User::first();
+
         $links = [
             'https://domain.com/link1,anchor1',
             'https://domain.com/link2,anchor1',
@@ -41,45 +43,8 @@ class LinksTableSeeder extends Seeder
             'https://domain2.com/link9,anchor9',
         ];
 
-        $user = \App\User::first();
+        $user->importLinks($links);
 
-        foreach($links as $link_string)
-        {
-            // Get anchor from string
-            $exploded = explode(',', $link_string);
-
-            if(count($exploded) == 2)
-            {
-                $link_string    = $exploded[0];
-                $anchor         = $exploded[1];
-
-                // Get domain name and path from the link
-                $uri            = \League\Uri\Http::createFromString($link_string);
-                $path           = $uri->getPath();
-                $domain_name    = $uri->getHost();
-                $domain         = \App\Domain::findOrCreate($domain_name, $user);
-
-                // Determine the anchor
-                $anchor         = \App\Anchor::findOrCreate($anchor, $user);
-
-                $link = $user->links()->create([
-                    'path'      => $path,
-                    'domain_id' => $domain->id,
-                    'anchor_id' => $anchor->id
-                ]);
-
-                echo 'Added link: '.$link->id.PHP_EOL;
-                $array = $link->buildLink();
-                echo 'URL: '.$array['href'].PHP_EOL;
-                echo 'Anchor: '.$array['anchor'].PHP_EOL;
-                echo 'HTML Link: '.$link->buildHTMLLink().PHP_EOL;
-            }
-            else
-            {
-                dd('Invalid imported link format.');
-            }
-        }
-
-        var_dump($user->links()->get());
+        var_dump('User has '.$user->links()->count().' links');
     }
 }
