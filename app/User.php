@@ -67,6 +67,7 @@ class User extends SparkUser
     public function importLinks($links_array)
     {
         $new_links = [];
+        $error = false;
         foreach($links_array as $link_string)
         {
             // Get anchor from string
@@ -97,7 +98,9 @@ class User extends SparkUser
             }
             else
             {
-                dd('Invalid imported link format.');
+                // There's an error in the link, break from the loop
+                $error = 'Invalid imported link format.';
+                break;
             }
         }
 
@@ -107,9 +110,11 @@ class User extends SparkUser
         $return['new_links']        = $new_links;
 
         if($new_links > 0)
-        {
             $return['success'] = true;
-        }
+        elseif($error)
+            $return['error_message'] = $error;
+        else
+            $return['error_message'] = 'Generic error';
 
         return $return;
     }

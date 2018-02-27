@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('/', 'WelcomeController@show');
+Route::get('/', 'WelcomeController@show')->name('home');
 
-Route::get('/home', 'HomeController@show')->name('home');
+Route::get('/home', 'HomeController@show')->name('dashboard');
 
 Route::post('/upload-links', 'HomeController@uploadLinks');

@@ -36,12 +36,19 @@ class HomeController extends Controller
         $user           = Auth::user();
         $links_array    = Link::convertUploadedFileIntoLinksArray($request->file('linksfile')->openFile());
         $import         = $user->importLinks($links_array);
+        $links_attempted_count = count($links_array);
 
         if($import['success'])
         {
-            return view('imported-links')->with('new_links', $import['new_links'])->with('user', $user);
+            return view('imported-links')
+                ->with('new_links', $import['new_links'])
+                ->with('links_attempted', $links_attempted_count)
+                ->with('user', $user);
         }
 
-        return view('import-failed')->with('user', $user)->with('error_message', $import['error_message']);
+        return view('import-failed')
+            ->with('user', $user)
+            ->with('links_attempted', $links_attempted_count)
+            ->with('error_message', $import['error_message']);
     }
 }

@@ -11,20 +11,11 @@
 
                         <div class="panel-body">
                             <p>
-                                Uploaded file has {!! $links_attempted !!} lines... <br ><br >
-
-                                {!! count($new_links) !!} links successfully added...
+                                Uploaded file has {!! $links_attempted !!} lines... <br >
                             </p>
 
-                            @if(count($new_links) < 1000)
-                                <ul>
-                                    @foreach($new_links as $link)
-                                        <li>{!! $link->buildHTMLLink(true) !!} - URL: {!! $link->domain->name.$link->path !!} - Anchor: {!! $link->anchor->text !!}</li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p>Skipping listing each link since you imported > 1000 links (trying to save your browser/computer)</p>
-                            @endif
+                            <p class="text-danger"><strong>Import failed</strong></p>
+                            <p class="alert alert-danger">Error Message: {!! $error_message !!}</p>
 
                             <p>
                                 You currently have {!! $user->links()->count() !!} links in the system.<br>
