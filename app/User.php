@@ -73,10 +73,13 @@ class User extends SparkUser
             // Get anchor from string
             $exploded = explode(',', $link_string);
 
-            if(count($exploded) == 2)
+            if(count($exploded) == 2 && mb_strlen($exploded[0]) > 1)
             {
                 $link_string    = $exploded[0];
                 $anchor         = $exploded[1];
+
+                if( ! mb_stristr($link_string, 'http'))
+                    $link_string = 'https://'.$link_string;
 
                 // Get domain name and path from the link
                 $uri            = \League\Uri\Http::createFromString($link_string);
@@ -87,11 +90,13 @@ class User extends SparkUser
                 // Determine the anchor
                 $anchor         = \App\Anchor::findOrCreate($anchor, $this);
 
-                $link = $this->links()->create([
+                $create = [
                     'path'      => $path,
                     'domain_id' => $domain->id,
                     'anchor_id' => $anchor->id
-                ]);
+                ];
+
+                $link = $this->links()->create($create);
 
                 if($link)
                     $new_links[] = $link;

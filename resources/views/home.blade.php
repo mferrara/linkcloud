@@ -25,15 +25,15 @@
                                 <table class="table table-condensed">
                                     <tbody>
                                     <tr>
-                                        <td>Links</td>
+                                        <td><a href="{!! route('links.index') !!}">Links</a></td>
                                         <td class="text-right"><strong>{!! Auth::user()->links()->count() !!}</strong></td>
                                     </tr>
                                     <tr>
-                                        <td>Domains</td>
+                                        <td><a href="{!! route('domains.index') !!}">Domains</a></td>
                                         <td class="text-right"><strong>{!! Auth::user()->domains()->count() !!}</strong></td>
                                     </tr>
                                     <tr>
-                                        <td>Anchors</td>
+                                        <td><a href="{!! route('anchors.index') !!}">Anchors</a></td>
                                         <td class="text-right"><strong>{!! Auth::user()->anchors()->count() !!}</strong></td>
                                     </tr>
                                     </tbody>

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Link;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class AnchorsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -21,13 +19,13 @@ class HomeController extends Controller
         // $this->middleware('subscribed');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return Response
-     */
-    public function show()
+    public function index(Request $request)
     {
-        return view('home');
+        $user       = Auth::user();
+        $anchors    = $user->anchors()->paginate(25);
+
+        return view('anchors.index')
+            ->with('user', $user)
+            ->with('anchors', $anchors);
     }
 }

@@ -6,6 +6,12 @@
             <!-- Application Dashboard -->
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="{{ route('dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="active">Link Import Results</li>
+                    </ol>
                     <div class="panel panel-default">
                         <div class="panel-heading">Import Results</div>
 

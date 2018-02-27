@@ -11,8 +11,11 @@
 |
 */
 
-Route::get('/', 'WelcomeController@show')->name('home');
+Route::get('/',                 'WelcomeController@show')->name('home');
 
-Route::get('/home', 'HomeController@show')->name('dashboard');
+Route::get('/home',             'HomeController@show')->name('dashboard');
+Route::get('/domains',          'DomainsController@index')->name('domains.index');
+Route::get('/anchors',          'AnchorsController@index')->name('anchors.index');
+Route::get('/links',            'LinksController@index')->name('links.index');
 
-Route::post('/upload-links', 'HomeController@uploadLinks');
+Route::post('/upload-links',    'LinksController@uploadLinks');
