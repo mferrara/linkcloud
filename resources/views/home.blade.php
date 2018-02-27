@@ -51,11 +51,17 @@
                                     <div class="form-group">
                                         <label for="linksfile">CSV Upload</label>
                                         <input type="file" name="linksfile" id="linksfile">
+                                        <br>
                                         <p class="help-block">File must be in the following format:<br><br>
-                                            https://sub.domain.com/path/here,anchor text here<br>
-                                            https://sub.domain.com/path/here,anchor text here<br>
-                                            https://sub.domain.com/path/here,anchor text here<br>
-                                            https://sub.domain.com/path/here,anchor text here<br>
+                                            https://sub.domain.com/path/here,anchor text<br>
+                                            https://sub.domain.com/path/here,anchor text<br>
+                                            <br>
+                                            One link per line, each line comma-separated.<br>
+                                            url,anchor
+                                        </p>
+                                        <p class="help-block">
+                                            Download a sample file <a
+                                                    href="{!! route('home').'/downloads/sample-links-file.csv' !!}">here.</a>
                                         </p>
                                     </div>
                                     @csrf
