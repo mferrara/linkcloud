@@ -34,11 +34,16 @@ class Link extends Model
         return $return;
     }
 
-    public function buildHTMLLink()
+    public function buildHTMLLink($target_blank = false)
     {
         $data = $this->buildLink();
 
-        return '<a href="'.$data['href'].'">'.$data['anchor'].'</a>';
+        if($target_blank)
+            $target = 'target="_blank"';
+        else
+            $target = '';
+
+        return '<a href="'.$data['href'].'" '.$target.'>'.$data['anchor'].'</a>';
     }
 
     /**
