@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Domain extends Model
 {
+    protected $guarded = ['id', 'created_at'];
+
     public function links()
     {
         return $this->hasMany(Link::class);

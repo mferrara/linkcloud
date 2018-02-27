@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Anchor extends Model
 {
+    protected $guarded = ['id', 'created_at'];
 
     public static function findOrCreate($anchor_text, User $user)
     {

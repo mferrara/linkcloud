@@ -13,4 +13,6 @@
 
 Route::get('/', 'WelcomeController@show');
 
-Route::get('/home', 'HomeController@show');
+Route::get('/home', 'HomeController@show')->name('home');
+
+Route::post('/upload-links', 'HomeController@uploadLinks');

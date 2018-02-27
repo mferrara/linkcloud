@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\App;
 use Laravel\Spark\User as SparkUser;
 
 class User extends SparkUser
@@ -65,6 +66,7 @@ class User extends SparkUser
 
     public function importLinks($links_array)
     {
+        $new_links = [];
         foreach($links_array as $link_string)
         {
             // Get anchor from string
@@ -90,16 +92,25 @@ class User extends SparkUser
                     'anchor_id' => $anchor->id
                 ]);
 
-                echo 'Added link: '.$link->id.PHP_EOL;
-                $array = $link->buildLink();
-                echo 'URL: '.$array['href'].PHP_EOL;
-                echo 'Anchor: '.$array['anchor'].PHP_EOL;
-                echo 'HTML Link: '.$link->buildHTMLLink().PHP_EOL;
+                if($link)
+                    $new_links[] = $link;
             }
             else
             {
                 dd('Invalid imported link format.');
             }
         }
+
+        // Setup return array
+        $return['success']          = false;
+        $return['error_message']    = false;
+        $return['new_links']        = $new_links;
+
+        if($new_links > 0)
+        {
+            $return['success'] = true;
+        }
+
+        return $return;
     }
 }
