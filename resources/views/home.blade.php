@@ -18,24 +18,26 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panel-default">
-                            <!-- Default panel contents -->
                             <div class="panel-heading">Your Stats</div>
 
-                            <!-- Table -->
                             <table class="table">
                                 <table class="table table-condensed">
                                     <tbody>
                                     <tr>
+                                        <td>Links Served</td>
+                                        <td class="text-right"><strong>{{ number_format(\DB::table('links')->where('user_id', \Auth::user()->id)->sum('given_links')) }}</strong></td>
+                                    </tr>
+                                    <tr>
                                         <td><a href="{!! route('links.index') !!}">Links</a></td>
-                                        <td class="text-right"><strong>{!! Auth::user()->links()->count() !!}</strong></td>
+                                        <td class="text-right"><strong>{!! number_format(Auth::user()->links()->count()) !!}</strong></td>
                                     </tr>
                                     <tr>
                                         <td><a href="{!! route('domains.index') !!}">Domains</a></td>
-                                        <td class="text-right"><strong>{!! Auth::user()->domains()->count() !!}</strong></td>
+                                        <td class="text-right"><strong>{!! number_format(Auth::user()->domains()->count()) !!}</strong></td>
                                     </tr>
                                     <tr>
                                         <td><a href="{!! route('anchors.index') !!}">Anchors</a></td>
-                                        <td class="text-right"><strong>{!! Auth::user()->anchors()->count() !!}</strong></td>
+                                        <td class="text-right"><strong>{!! number_format(Auth::user()->anchors()->count()) !!}</strong></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -44,7 +46,28 @@
                     </div>
                     <div class="col-md-6">
                         <div class="panel panel-default">
-                            <!-- Default panel contents -->
+                            <div class="panel-heading">Global Stats</div>
+
+                            <table class="table">
+                                <table class="table table-condensed">
+                                    <tbody>
+                                    <tr>
+                                        <td>Links Served</td>
+                                        <td class="text-right"><strong>{{ number_format(\DB::table('links')->sum('given_links')) }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Domains</td>
+                                        <td class="text-right"><strong>{!! number_format(\App\Domain::count()) !!}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Users</td>
+                                        <td class="text-right"><strong>{{ number_format(\App\User::count()) }}</strong></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </table>
+                        </div>
+                        <div class="panel panel-default">
                             <div class="panel-heading">Helpful links</div>
                             <br>
                             <ul>
