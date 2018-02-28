@@ -18,12 +18,31 @@ class UsersTableSeeder extends Seeder
         $user->forceFill([
             'name'                          => 'Mike Ferrara',
             'email'                         => 'mferrara@gmail.com',
-            'points'                        => 10,
+            'points'                        => 0,
             'password'                      => bcrypt('password'),
             'last_read_announcements_at'    => Carbon::now(),
             'trial_ends_at'                 => Carbon::now()->addDays(Spark::trialDays()),
         ])->save();
 
         echo $user->email.' created!'.PHP_EOL;
+
+        $faker = Faker\Factory::create();
+
+        $max_users = 1000;
+        while(\App\User::count() <= $max_users)
+        {
+            $user = Spark::user();
+
+            $user->forceFill([
+                'name'                          => $faker->name,
+                'email'                         => $faker->email,
+                'points'                        => 0,
+                'password'                      => bcrypt('password'),
+                'last_read_announcements_at'    => Carbon::now(),
+                'trial_ends_at'                 => Carbon::now()->addDays(Spark::trialDays()),
+            ])->save();
+
+            echo $user->email.' created!'.PHP_EOL;
+        }
     }
 }

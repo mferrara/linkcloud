@@ -22,51 +22,7 @@ class ApiV1Controller extends Controller
 
         if($user->token()->can('get-links'))
         {
-            // Replace with links selected from pool
-            // TODO: Better/faster distribution method
-            $users      = User::where('points', '>', 0)->get();
-            $user_ids   = $users->pluck('id')->all();
-
-            // Get links from this collection of users
-            $links      = Link::whereIn('user_id', $user_ids)
-                ->whereRaw('links.expected_links > links.given_links')
-                //->where('user_id', '!=', $user->id)
-                ->inRandomOrder()
-                ->orderBy('id', 'asc')
-                ->take(3)
-                ->get();
-
-            // Setup return string and user point total
-            $return             = '';
-            $increment_points   = 0;
-            $decrement_points   = [];
-            foreach($links as $link)
-            {
-                $return .= $link->buildHTMLLink().'<br />';
-                $link->incrementGivenViews();
-
-                // Increment the user's points (for showing links)
-                $increment_points++;
-
-                // Setup array of users to have their points decrement due to their links being shown
-                if(isset($decrement_points[$link->user_id]))
-                    $decrement_points[$link->user_id]++;
-                else
-                    $decrement_points[$link->user_id] = 1;
-            }
-
-            // If there are points, increment the user's points
-            if($increment_points > 0)
-                $user->incrementPoints($increment_points);
-
-            // If there's decrement users, act accordingly
-            if(count($decrement_points) > 0)
-            {
-                foreach($decrement_points as $user_id => $points)
-                {
-                    User::find($user_id)->decrementPoints($points);
-                }
-            }
+            $return = Link::getLinks($user);
 
             return $return;
         }
