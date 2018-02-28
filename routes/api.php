@@ -14,5 +14,5 @@
 Route::group([
     'middleware' => 'auth:api'
 ], function () {
-    //
+    Route::get('/v1/links', 'ApiV1Controller@getLinks');
 });

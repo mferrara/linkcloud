@@ -12,7 +12,12 @@
                     	</li>
                     	<li class="active">Links</li>
                     </ol>
-                    <p class="text-right">Links listed by most recently added</p>
+                    <div class="row">
+                        <div class="col-md-6">showing {{ $links->count() }} of {{ $user->links()->count() }} total links</div>
+                        <div class="col-md-6">
+                            <p class="text-right">Links listed by most recently added</p>
+                        </div>
+                    </div>
                     <table class="table table-condensed">
                     	<thead>
                     		<tr>

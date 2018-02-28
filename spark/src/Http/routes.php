@@ -97,7 +97,7 @@ $router->group(['middleware' => 'web'], function ($router) {
     $router->delete('/settings/two-factor-auth', 'Settings\Security\TwoFactorAuthController@disable');
 
     // API Settings
-    $router->get('/settings/api/tokens', 'Settings\API\TokenController@all');
+    $router->get('/settings/api/tokens', 'Settings\API\TokenController@all')->name('user.settings.api.tokens');
     $router->post('/settings/api/token', 'Settings\API\TokenController@store');
     $router->put('/settings/api/token/{token_id}', 'Settings\API\TokenController@update');
     $router->get('/settings/api/token/abilities', 'Settings\API\TokenAbilitiesController@all');

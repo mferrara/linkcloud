@@ -33,6 +33,7 @@ class LinksController extends Controller
     public function uploadLinks(Request $request)
     {
         $user           = Auth::user();
+        // TODO Validation on this posted file
         $links_array    = Link::convertUploadedFileIntoLinksArray($request->file('linksfile')->openFile());
         $import         = $user->importLinks($links_array);
         $links_attempted_count = count($links_array);

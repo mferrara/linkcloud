@@ -12,6 +12,10 @@
                         </li>
                         <li class="active">Anchors</li>
                     </ol>
+                    <div class="row">
+                        <div class="col-md-6">showing {{ $anchors->count() }} of {{ $user->anchors()->count() }} total anchors</div>
+                        <div class="col-md-6"></div>
+                    </div>
                     <table class="table table-condensed">
                         <thead>
                         <tr>

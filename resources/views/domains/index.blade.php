@@ -12,6 +12,10 @@
                         </li>
                         <li class="active">Domains</li>
                     </ol>
+                    <div class="row">
+                        <div class="col-md-6">showing {{ $domains->count() }} of {{ $user->domains()->count() }} total domains</div>
+                        <div class="col-md-6"></div>
+                    </div>
                     <table class="table table-condensed">
                         <thead>
                         <tr>

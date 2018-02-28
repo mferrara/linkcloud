@@ -62,5 +62,11 @@ class SparkServiceProvider extends ServiceProvider
             ->features([
                 'First', 'Second', 'Third'
             ]);
+
+        // Setup API token permissions
+        Spark::tokensCan([
+            'get-links'     => 'GET Links (For use on your sites)',
+            'post-links'    => 'POST Links (For use in link importing scripts)'
+        ]);
     }
 }

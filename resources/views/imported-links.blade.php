@@ -33,7 +33,7 @@
                             @endif
 
                             <p>
-                                You currently have {!! $user->links()->count() !!} links in the system.<br>
+                                You currently have <a href="{{ route('links.index') }}">{!! $user->links()->count() !!} links</a> in the system.<br>
                             </p>
 
                             <p><a href="{!! route('dashboard') !!}">Back to dashboard</a></p>

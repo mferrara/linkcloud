@@ -10,12 +10,23 @@
                     <div class="panel-heading">Dashboard</div>
 
                     <div class="panel-body">
-                        Welcome to LinkCloud
+                        Welcome to LinkCloud<br/><br />
+                        Give links. Get links. Clean and simple.
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">Helpful links</div>
+                            <br>
+                            <ul>
+                                <li><a href="{{ route('docs.api.v1.index') }}">API "documentation"</a></li>
+                                <li>Sample link import .csv file <a href="{!! route('home').'/downloads/sample-links-file.csv' !!}">(Download)</a></li>
+                            </ul>
+                        </div>
+
                         <div class="panel panel-default">
                             <!-- Default panel contents -->
                             <div class="panel-heading">Stats</div>
