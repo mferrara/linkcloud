@@ -6,6 +6,32 @@ use Illuminate\Database\Eloquent\Model;
 use League\Csv\Reader;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * App\Link
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $domain_id
+ * @property int $anchor_id
+ * @property string $path
+ * @property int $expected_links
+ * @property int $given_links
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \App\Anchor $anchor
+ * @property-read \App\Domain $domain
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Link whereAnchorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Link whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Link whereDomainId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Link whereExpectedLinks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Link whereGivenLinks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Link whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Link wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Link whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Link whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Link extends Model
 {
     protected $guarded = ['id', 'created_at'];

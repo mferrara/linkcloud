@@ -4,6 +4,23 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Domain
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $name
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Link[] $links
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Domain whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Domain extends Model
 {
     protected $guarded = ['id', 'created_at'];
