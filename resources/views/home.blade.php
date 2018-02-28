@@ -19,17 +19,7 @@
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <!-- Default panel contents -->
-                            <div class="panel-heading">Helpful links</div>
-                            <br>
-                            <ul>
-                                <li><a href="{{ route('docs.api.v1.index') }}">API "documentation"</a></li>
-                                <li>Sample link import .csv file <a href="{!! route('home').'/downloads/sample-links-file.csv' !!}">(Download)</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="panel panel-default">
-                            <!-- Default panel contents -->
-                            <div class="panel-heading">Stats</div>
+                            <div class="panel-heading">Your Stats</div>
 
                             <!-- Table -->
                             <table class="table">
@@ -54,6 +44,19 @@
                     </div>
                     <div class="col-md-6">
                         <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">Helpful links</div>
+                            <br>
+                            <ul>
+                                <li><a href="{{ route('docs.api.v1.index') }}">API "documentation"</a></li>
+                                <li>Sample link import .csv file <a href="{!! route('home').'/downloads/sample-links-file.csv' !!}">(Download)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Upload Links</h3>
                             </div>
@@ -64,11 +67,11 @@
                                         <input type="file" name="linksfile" id="linksfile">
                                         <br>
                                         <p class="help-block">File must be in the following format:<br><br>
-                                            https://sub.domain.com/path/here,anchor text<br>
-                                            https://sub.domain.com/path/here,anchor text<br>
+                                            https://sub.domain.com/path/here,anchor text,views (optional - default: {{ config('linkcloud.default_link_count') }})<br>
+                                            https://sub.domain.com/path/here,anchor text,views (optional - default: {{ config('linkcloud.default_link_count') }})<br>
                                             <br>
                                             One link per line, each line comma-separated.<br>
-                                            url,anchor
+                                            url,anchor,link views
                                         </p>
                                         <p class="help-block">
                                             Download a sample file <a

@@ -23,6 +23,8 @@
                     		<tr>
                     			<th>URL</th>
                                 <th>Anchor Text</th>
+                                <th class="text-center">Expected Links</th>
+                                <th class="text-center">Given Links</th>
                                 <th class="text-right">Link</th>
                     		</tr>
                     	</thead>
@@ -31,6 +33,8 @@
                     		<tr>
                     			<td>{!! $link->domain->name.$link->path !!}</td>
                                 <td>{{ $link->anchor->text }}</td>
+                                <td class="text-center">{{ $link->expected_links }}</td>
+                                <td class="text-center">{{ $link->given_links }}</td>
                                 <td class="text-right">{!! $link->buildHTMLLink() !!}</td>
                     		</tr>
                         @endforeach

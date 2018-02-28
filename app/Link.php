@@ -59,8 +59,12 @@ class Link extends Model
         $return = [];
         foreach($reader as $index => $row)
         {
+            $link_count = config('linkcloud.default_link_count');
+            if(isset($row[2]))
+                $link_count = $row[2];
+
             // Create a comma delimited string to add to the array
-            $row_string = $row[0].','.$row[1];
+            $row_string = $row[0].','.$row[1].','.$link_count;
 
             // If the combined string is greater than 2 in length (meaning, essentially, it's not empty)
             // we'll pass it through, for now.

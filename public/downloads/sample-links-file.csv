@@ -1,6 +1,6 @@
-domain1.com,anchor1
-domain2.com,anchor2
-domain3.com,anchor3
-domain4.com/link-path,anchor4
-domain5.com/link-path#blueshoes,blue shoes
-domain5.com/2018/07/23/blueshoes,blue shoes
+domain1.com,anchor1,1
+domain2.com,anchor2,2
+domain3.com,anchor3,3
+domain4.com/link-path,anchor4,4
+domain5.com/link-path#blueshoes,blue shoes,20
+domain5.com/2018/07/23/blueshoes,blue shoes,15
