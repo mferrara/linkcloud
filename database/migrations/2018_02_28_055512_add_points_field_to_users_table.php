@@ -14,7 +14,7 @@ class AddPointsFieldToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('points')->default(0)->index();
+            $table->integer('points')->default(0)->after('email')->index();
         });
     }
 
