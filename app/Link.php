@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\UploadedFile;
 use League\Csv\Reader;
+use Illuminate\Support\Facades\DB;
 
 class Link extends Model
 {
@@ -44,6 +44,11 @@ class Link extends Model
             $target = '';
 
         return '<a href="'.$data['href'].'" '.$target.'>'.$data['anchor'].'</a>';
+    }
+
+    public function incrementGivenViews()
+    {
+        DB::table('links')->where('id', $this->id)->increment('given_links');
     }
 
     /**

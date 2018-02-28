@@ -17,11 +17,18 @@ class ApiV1Controller extends Controller
         {
             // Grab links from this user's account - for now
             // Replace with links selected from pool
-            $links      = $user->links()->inRandomOrder()->take(3)->get();
+            // TODO: Better/faster distribution method
+            $links      = Link::whereRaw('links.expected_links > links.given_links')
+                //->where('user_id', '!=', $user->id)
+                ->inRandomOrder()
+                ->orderBy('id', 'asc')
+                ->take(3)
+                ->get();
             $return     = '';
             foreach($links as $link)
             {
                 $return .= $link->buildHTMLLink().'<br />';
+                $link->incrementGivenViews();
             }
 
             return $return;

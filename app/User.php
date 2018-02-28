@@ -73,7 +73,7 @@ class User extends SparkUser
             // Get anchor from string
             $exploded = explode(',', $link_string);
 
-            if(count($exploded) == 2 && mb_strlen($exploded[0]) > 1)
+            if(count($exploded) > 1 && mb_strlen($exploded[0]) > 1)
             {
                 $link_string    = $exploded[0];
                 $anchor         = $exploded[1];
