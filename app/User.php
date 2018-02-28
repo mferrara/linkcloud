@@ -149,7 +149,7 @@ class User extends SparkUser
             {
                 $link_string    = $exploded[0];
                 $anchor         = $exploded[1];
-                $link_count     = $exploded[2];
+                $link_count     = (int) $exploded[2];
 
                 if( ! mb_stristr($link_string, 'http'))
                     $link_string = 'https://'.$link_string;
