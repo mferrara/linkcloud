@@ -125,4 +125,15 @@ class User extends SparkUser
 
         return $return;
     }
+
+    public function incrementPoints($value = 1)
+    {
+        DB::table('users')->where('id', $this->id)->increment('points', $value);
+    }
+
+    public function decrementPoints($value = 1)
+    {
+        DB::table('users')->where('id', $this->id)->decrement('points', $value);
+    }
+
 }
