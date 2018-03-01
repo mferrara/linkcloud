@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Jobs\ProcessLinkViewChange;
 use Illuminate\Database\Eloquent\Model;
 use League\Csv\Reader;
 use Illuminate\Support\Facades\DB;
@@ -74,7 +75,7 @@ class Link extends Model
 
     public function incrementGivenViews()
     {
-        DB::table('links')->where('id', $this->id)->increment('given_links');
+        ProcessLinkViewChange::dispatch($this, 1);
     }
 
     /**
