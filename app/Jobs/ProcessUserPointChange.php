@@ -15,16 +15,18 @@ class ProcessUserPointChange implements ShouldQueue
 
     protected $user;
     protected $point_change;
+    protected $decrement;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $user, $point_change)
+    public function __construct(User $user, $point_change, $decrement = false)
     {
         $this->user         = $user;
         $this->point_change = $point_change;
+        $this->decrement    = $decrement;
     }
 
     /**
@@ -34,10 +36,9 @@ class ProcessUserPointChange implements ShouldQueue
      */
     public function handle()
     {
-        // if > 0 it's an increment
-        if($this->point_change > 0)
-            \DB::table('users')->where('id', $this->user->id)->increment('points', $this->point_change);
-        else
+        if($this->decrement)
             \DB::table('users')->where('id', $this->user->id)->decrement('points', $this->point_change);
+        else
+            \DB::table('users')->where('id', $this->user->id)->increment('points', $this->point_change);
     }
 }
