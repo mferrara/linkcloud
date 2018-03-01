@@ -2,8 +2,7 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
+use App\Jobs\ProcessUserPointChange;
 use Laravel\Spark\User as SparkUser;
 
 /**
@@ -200,12 +199,12 @@ class User extends SparkUser
 
     public function incrementPoints($value = 1)
     {
-        DB::table('users')->where('id', $this->id)->increment('points', $value);
+        ProcessUserPointChange::dispatch($this, $value);
     }
 
     public function decrementPoints($value = 1)
     {
-        DB::table('users')->where('id', $this->id)->decrement('points', $value);
+        ProcessUserPointChange::dispatch($this, $value);
     }
 
 }

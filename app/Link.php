@@ -111,7 +111,11 @@ class Link extends Model
     {
         // Replace with links selected from pool
         // TODO: Better/faster distribution method
+
+        // Get eligible users
+        // TODO: Flag/option for users to disable their own links potentially being returned here
         $users      = User::where('points', '>', 0)->whereNotIn('id', [$user->id])->get();
+        // If there are no users with positive point counts, let's look for those that are at least not negative
         if($users->count() < 1)
             $users  = User::where('points', '>=', 0)->whereNotIn('id', [$user->id])->get();
         $user_ids   = $users->pluck('id')->all();
@@ -119,7 +123,6 @@ class Link extends Model
         // Get links from this collection of users
         $links      = Link::whereIn('user_id', $user_ids)
             ->whereRaw('links.expected_links > links.given_links')
-            //->where('user_id', '!=', $user->id)
             ->inRandomOrder()
             ->orderBy('id', 'asc')
             ->take(3)
