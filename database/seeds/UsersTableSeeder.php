@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
 
         $faker = Faker\Factory::create();
 
-        $max_users = 1000;
+        $max_users = config('linkcloud.seeded_user_count');
         while(\App\User::count() <= $max_users)
         {
             $user = Spark::user();
