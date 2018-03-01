@@ -204,6 +204,9 @@ class User extends SparkUser
 
     public function decrementPoints($value = 1)
     {
+        // If the value provided here is positive we'll force it negative to ensure decrement
+        if($value > 0)
+            $value = $value * -1;
         ProcessUserPointChange::dispatch($this, $value);
     }
 
