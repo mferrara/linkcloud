@@ -23,11 +23,22 @@ class LinksController extends Controller
     public function index(Request $request)
     {
         $user   = Auth::user();
-        $links  = $user->links()->orderBy('id', 'desc')->paginate(25);
+        $links  = $user->links();
+
+        if($request->has('anchor_id'))
+            $links->where('anchor_id', $request->get('anchor_id'));
+
+        if($request->has('domain_id'))
+            $links->where('domain_id', $request->get('domain_id'));
+
+        $total_count = $links->count();
+        $links  = $links->orderBy('id', 'desc')
+            ->paginate(25);
 
         return view('links.index')
             ->with('user', $user)
-            ->with('links', $links);
+            ->with('links', $links)
+            ->with('total_count', $total_count);
     }
 
     public function uploadLinks(Request $request)

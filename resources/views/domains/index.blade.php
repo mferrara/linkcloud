@@ -27,7 +27,7 @@
                         @foreach($domains as $domain)
                             <tr>
                                 <td>{!! $domain->name !!}</td>
-                                <td class="text-right">{!! $domain->links()->count() !!}</td>
+                                <td class="text-right"><a href="{{ route('links.index').'?domain_id='.$domain->id }}">{!! $domain->links()->count() !!}</a></td>
                             </tr>
                         @endforeach
                         </tbody>

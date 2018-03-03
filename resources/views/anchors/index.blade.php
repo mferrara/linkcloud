@@ -27,7 +27,7 @@
                         @foreach($anchors as $anchor)
                             <tr>
                                 <td>{!! $anchor->text !!}</td>
-                                <td class="text-right">{!! $anchor->links()->count() !!}</td>
+                                <td class="text-right"><a href="{{ route('links.index').'?anchor_id='.$anchor->id }}">{!! $anchor->links()->count() !!}</a></td>
                             </tr>
                         @endforeach
                         </tbody>
