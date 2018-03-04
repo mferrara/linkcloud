@@ -23,17 +23,25 @@ Route::post('/settings',        'UserController@updateSettings')->name('user.set
 
 Route::get('/docs/api/v1',      'ApiV1DocumentationController@index')->name('docs.api.v1.index');
 
-Route::get('/test', function(Request $request)
+Route::get('/test-get-links', function(\Illuminate\Http\Request $request)
 {
     $requesting_user= \App\User::first();
+    $request_domain = 'linkcloud.test';
+    if(\Illuminate\Support\Facades\App::environment() == 'production')
+        $request_domain = 'linkcloud.net';
+
     $token          = $requesting_user->tokens()->first()->token;
     $cycles         = 100;
     $count          = 0;
     $total_time     = 0;
+
+    if($request->has('cycles'))
+        $cycles = $request->get('cycles');
+
     foreach(\App\User::all() as $user)
     {
         $start = microtime(true);
-        $return = file_get_contents('https://linkcloud.net/api/v1/links?api_token='.$token, false, stream_context_create(["ssl"=>[
+        $return = file_get_contents('https://'.$request_domain.'/api/v1/links?api_token='.$token, false, stream_context_create(["ssl"=>[
             "verify_peer"=>false,
             "verify_peer_name"=>false,
         ]]));
