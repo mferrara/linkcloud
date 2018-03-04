@@ -20,13 +20,15 @@ class LinksTableSeeder extends Seeder
         $extentions = ['.com', '.net', '.info', '.org', '.xyz', '.tk'];
         $paths      = ['link', 'page', 'user', 'view'];
         $anchors    = ['red', 'blue', 'green', 'yellow', 'orange', 'black', 'brown'];
+        echo PHP_EOL.'Building link pool...'.PHP_EOL;
         while(count($links) < $max)
         {
             // Build a random link
-            $link = 'https://domain'.rand(0,99).$extentions[array_rand($extentions)].'/'.$paths[array_rand($paths)].rand(0,99).','.$anchors[array_rand($anchors)].rand(0,99).','.rand(1,15);
-            // If it doesn't already exit, add it
-            if( ! in_array($link, $links))
-                $links[] = $link;
+            $link       = 'https://domain'.rand(0,99).$extentions[array_rand($extentions)].'/'.$paths[array_rand($paths)].rand(0,99).','.$anchors[array_rand($anchors)].rand(0,99).','.rand(1,15);
+            $links[]    = $link;
+
+            if(count($links) % 1000 == 0)
+                echo count($links).' links...'.PHP_EOL;
         }
 
         // Create a collection
