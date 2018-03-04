@@ -19,6 +19,7 @@ Route::get('/anchors',          'AnchorsController@index')->name('anchors.index'
 Route::get('/links',            'LinksController@index')->name('links.index');
 
 Route::post('/upload-links',    'LinksController@uploadLinks');
+Route::post('/settings',        'UserController@updateSettings')->name('user.settings.update');
 
 Route::get('/docs/api/v1',      'ApiV1DocumentationController@index')->name('docs.api.v1.index');
 

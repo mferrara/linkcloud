@@ -207,4 +207,9 @@ class User extends SparkUser
         ProcessUserPointChange::dispatch($this, $value, true);
     }
 
+    public function linkMethod()
+    {
+        return \Setting::get('link-wrapper-method', 'br');
+    }
+
 }

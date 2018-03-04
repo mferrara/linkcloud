@@ -53,6 +53,12 @@
                                         </a>
                                     </li>
                                 @endif
+
+                                <li role="presentation">
+                                    <a href="#link-settings" aria-controls="link-settings" role="tab" data-toggle="tab">
+                                        <i class="fa fa-fw fa-btn fa-cubes"></i>Link Settings
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -123,6 +129,18 @@
                             @include('spark::settings.api')
                         </div>
                     @endif
+
+                    <!-- Link Settings -->
+                    <div role="tabpanel" class="tab-pane" id="link-settings">
+                        <div class="panel panel-default">
+                        	  <div class="panel-heading">
+                        			<h3 class="panel-title">Link Settings</h3>
+                        	  </div>
+                        	  <div class="panel-body">
+                        			Panel body
+                        	  </div>
+                        </div>
+                    </div>
 
                     <!-- Billing Tab Panes -->
                     @if (Spark::canBillCustomers())

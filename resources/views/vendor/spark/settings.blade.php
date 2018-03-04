@@ -53,6 +53,12 @@
                                         </a>
                                     </li>
                                 @endif
+
+                                <li role="presentation">
+                                    <a href="#link-settings" aria-controls="link-settings" role="tab" data-toggle="tab">
+                                        <i class="fa fa-fw fa-btn fa-cubes"></i>Link Settings
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -123,6 +129,63 @@
                             @include('spark::settings.api')
                         </div>
                     @endif
+
+                    <!-- Link Settings -->
+                    <div role="tabpanel" class="tab-pane" id="link-settings">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Link Settings</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form action="{{ route('user.settings.update') }}" method="POST">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p>
+                                                <strong>Link presentation format options</strong><br />
+                                            <ul>
+                                                <li>
+                                                    <strong>{{ '<br />' }}</strong> (Default) - Links will be delivered as follows:<br />
+                                                    Link{{ '<br />' }}<br>
+                                                    Link{{ '<br />' }}<br>
+                                                    Link
+                                                </li>
+                                                <li>
+                                                    <strong>{{ '<li></li>' }}</strong> - Links will be delivered as follows:<br />
+                                                    {{ '<li>' }}Link{{ '</li>' }}<br>
+                                                    {{ '<li>' }}Link{{ '</li>' }}<br>
+                                                    {{ '<li>' }}Link{{ '</li>' }}
+                                                </li>
+                                            </ul>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select class="form-control" name="link-wrapper-method" id="link-wrapper-method">
+                                                    <option value="">Select</option>
+                                                    <option value="br" @if(\Auth::user()->linkMethod() == 'br') selected @endif>{{ '<br />' }}</option>
+                                                    <option value="li" @if(\Auth::user()->linkMethod() == 'li') selected @endif>{{ '<li></li>' }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="interlinking" value="on" @if(setting()->get('interlinking') == true) checked @endif>
+                                            Allow my own links to be shown on my own sites (interlinking)
+                                        </label>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-10 text-right">
+                                            <input type="submit" class="btn btn-primary">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Billing Tab Panes -->
                     @if (Spark::canBillCustomers())

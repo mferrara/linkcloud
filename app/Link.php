@@ -108,6 +108,12 @@ class Link extends Model
         return $return;
     }
 
+    /**
+     * Get a string of links for this user to show
+     *
+     * @param User $user
+     * @return string
+     */
     public static function getLinks(User $user)
     {
         // Replace with links selected from pool
@@ -135,7 +141,24 @@ class Link extends Model
         $decrement_points   = [];
         foreach($links as $link)
         {
-            $return .= $link->buildHTMLLink().'<br />';
+            // Build the link
+            $link_row = $link->buildHTMLLink();
+
+            // Determine how it's to be wrapped
+            switch($user->linkMethod())
+            {
+                case 'br':
+                    $link_row .= '<br />';
+                    break;
+
+                case 'li':
+                    $link_row = '<li>'.$link_row.'</li>';
+                    break;
+            }
+
+            // Add to the returned string
+            $return .= $link_row;
+            // Increment the views given to this link
             $link->incrementGivenViews();
 
             // Increment the user's points (for showing links)
@@ -155,6 +178,7 @@ class Link extends Model
         // If there's decrement users, act accordingly
         if(count($decrement_points) > 0)
         {
+            // Loop through the $decrement_points array adjusting their score as needed
             foreach($decrement_points as $user_id => $points)
             {
                 User::find($user_id)->decrementPoints($points);

@@ -26,7 +26,7 @@ $router->group(['middleware' => 'web'], function ($router) {
     $router->put('/notifications/read', 'NotificationController@markAsRead');
 
     // Settings Dashboard...
-    $router->get('/settings', 'Settings\DashboardController@show')->name('settings');
+    $router->get('/settings', 'Settings\DashboardController@show')->name('user.settings');
 
     // Profile Contact Information...
     $router->put('/settings/contact', 'Settings\Profile\ContactInformationController@update');
