@@ -14,7 +14,7 @@ class AddSettingsToUsersTable extends Migration {
 	{
 		Schema::table('users', function(Blueprint $table)
 		{
-			$table->text('settings')->after('extra_billing_information');
+			$table->text('settings')->after('extra_billing_information')->nullable();
 		});
 	}
 
