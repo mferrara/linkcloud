@@ -212,4 +212,38 @@ class User extends SparkUser
         return \Setting::get('link-wrapper-method', 'br');
     }
 
+    /**
+     * Determine what users are eligible for links to be shown, return as an array of user_ids
+     *
+     * @return array
+     */
+    public static function usersEligibleForLinks()
+    {
+        // TODO: Need to cache the results of this query, can't have it running every request
+        // TODO: Also need to cache the users settings unless they're updated
+
+        $user       = \Auth::user();
+
+        // Setup the query
+        $users      = self::where('points', '>', 0);
+        // If the user hasn't allowed interlinking, make sure we don't get them
+        if(setting()->get('interlinking', false) == false)
+            $users = $users->whereNotIn('id', [$user->id]);
+        // Run the query
+        $users = $users->get();
+
+        // If there are no users with positive point counts, let's look for those that are at least not negative
+        if($users->count() < 1)
+        {
+            $users  = self::where('points', '>=', 0);
+            if(setting()->get('interlinking', false) == false)
+                $users->whereNotIn('id', [$user->id]);
+
+            $users = $users->get();
+        }
+
+        // Return an array of just the user_ids
+        return $user_ids   = $users->pluck('id')->all();
+    }
+
 }

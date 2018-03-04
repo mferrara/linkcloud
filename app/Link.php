@@ -121,11 +121,7 @@ class Link extends Model
 
         // Get eligible users
         // TODO: Flag/option for users to disable their own links potentially being returned here
-        $users      = User::where('points', '>', 0)->whereNotIn('id', [$user->id])->get();
-        // If there are no users with positive point counts, let's look for those that are at least not negative
-        if($users->count() < 1)
-            $users  = User::where('points', '>=', 0)->whereNotIn('id', [$user->id])->get();
-        $user_ids   = $users->pluck('id')->all();
+        $user_ids = User::usersEligibleForLinks();
 
         // Get links from this collection of users
         $links      = Link::whereIn('user_id', $user_ids)
