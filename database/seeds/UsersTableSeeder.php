@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
         $user->forceFill([
             'name'                          => 'Mike Ferrara',
             'email'                         => 'mferrara@gmail.com',
-            'points'                        => 0,
+            'points'                        => 1000,
             'password'                      => bcrypt('password'),
             'last_read_announcements_at'    => Carbon::now(),
             'trial_ends_at'                 => Carbon::now()->addDays(Spark::trialDays()),
