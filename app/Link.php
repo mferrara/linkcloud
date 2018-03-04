@@ -123,12 +123,19 @@ class Link extends Model
         $user_ids = User::usersEligibleForLinks();
 
         // Get links from this collection of users
-        $links      = Link::whereIn('user_id', $user_ids)
-            ->whereRaw('links.expected_links > links.given_links')
-            ->inRandomOrder()
-            ->orderBy('id', 'asc')
-            ->take(3)
-            ->get();
+        $cache_key = 'link_pool';
+        if(\Cache::has($cache_key))
+            $links = \Cache::get($cache_key);
+        else
+        {
+            $links      = Link::whereIn('user_id', $user_ids)
+                ->whereRaw('links.expected_links > links.given_links')
+                ->inRandomOrder()
+                ->orderBy('id', 'asc')
+                ->take(3)
+                ->get();
+            \Cache::put($cache_key, $links, 1);
+        }
 
         // Setup return string and user point total
         $return             = '';

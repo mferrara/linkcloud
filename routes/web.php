@@ -52,6 +52,6 @@ Route::get('/test-get-links', function(\Illuminate\Http\Request $request)
         if($count >= $cycles)
             break;
     }
-    
-    echo $count.' requests made over '.number_format($total_time, 2).'s with an average of '.number_format(($total_time / $count), 4).'s per request.';
+
+    echo '<br />'.$count.' requests made over '.number_format($total_time, 2).'s with an average of '.number_format(($total_time / $count), 4).'s per request.';
 });
