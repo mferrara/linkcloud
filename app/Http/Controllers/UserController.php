@@ -18,6 +18,7 @@ class UserController extends Controller
 
     public function updateSettings(Request $request)
     {
+        $user = \Auth::user();
         $link_wrapper_method = $request->get('link-wrapper-method');
 
         if($request->has('interlinking'))
@@ -27,6 +28,9 @@ class UserController extends Controller
 
         setting()->set('link-wrapper-method', $link_wrapper_method);
         setting()->save();
+
+        // Clear the settings cache
+        $user->emptySettingsCache();
 
         return redirect(route('user.settings'));
     }

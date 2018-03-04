@@ -207,9 +207,79 @@ class User extends SparkUser
         ProcessUserPointChange::dispatch($this, $value, true);
     }
 
+    /**
+     * @return string
+     */
     public function linkMethod()
     {
-        return \Setting::get('link-wrapper-method', 'br');
+        $link_method = $this->settings('link-wrapper-method', config('linkcloud.default_link_method'));
+        return $link_method;
+    }
+
+    /**
+     * @param $key
+     * @param null $default
+     * @return string, null
+     */
+    public function settings($key, $default = null)
+    {
+        // Setup cache key for user settings
+        $cache_key = $this->settingsCacheKey();
+
+        // Check for existing cached values
+        if(\Cache::has($cache_key))
+        {
+            $settings = \Cache::get($cache_key);
+
+            // If there's a populated value for the key provided, return it
+            if(isset($settings[$key]))
+                return $settings[$key];
+            else // Otherwise, return the default value
+                return $default;
+        }
+
+        // No existing cached settings - request full settings array from db
+        $settings = $this->hydrateSettingsCache();
+
+        // If there's a value for the key provided, return it
+        if(isset($settings[$key]))
+            return $settings[$key];
+
+        // Otherwise return default
+        return $default;
+    }
+
+    /**
+     * Populate the user settings cache value
+     *
+     * @return mixed
+     */
+    public function hydrateSettingsCache()
+    {
+        // Get all settings
+        $settings = setting()->all();
+        // Cache it forever
+        \Cache::forever($this->settingsCacheKey(), $settings);
+
+        return $settings;
+    }
+
+    /**
+     * Empty the user settings cache value
+     */
+    public function emptySettingsCache()
+    {
+        \Cache::delete($this->settingsCacheKey());
+    }
+
+    /**
+     * Generate the users settings cache key
+     *
+     * @return string
+     */
+    public function settingsCacheKey()
+    {
+        return 'user.settings.'.$this->id;
     }
 
     /**

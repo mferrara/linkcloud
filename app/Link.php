@@ -120,7 +120,6 @@ class Link extends Model
         // TODO: Better/faster distribution method
 
         // Get eligible users
-        // TODO: Flag/option for users to disable their own links potentially being returned here
         $user_ids = User::usersEligibleForLinks();
 
         // Get links from this collection of users

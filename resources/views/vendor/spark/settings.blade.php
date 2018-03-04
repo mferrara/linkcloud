@@ -172,7 +172,7 @@
 
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="interlinking" value="on" @if(setting()->get('interlinking') == true) checked @endif>
+                                            <input type="checkbox" name="interlinking" value="on" @if(\Auth::user()->settings('interlinking', config('linkcloud.default_interlinking')) == true) checked @endif>
                                             Allow my own links to be shown on my own sites (interlinking)
                                         </label>
                                     </div>
