@@ -19,7 +19,8 @@
         "laravel/spark": "*@dev",
         "laravel/tinker": "~1.0",
         "league/csv": "^9.0",
-        "league/uri": "^5.2"
+        "league/uri": "^5.2",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

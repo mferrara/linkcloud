@@ -290,8 +290,6 @@ class User extends SparkUser
     public static function usersEligibleForLinks()
     {
         // TODO: Need to cache the results of this query, can't have it running every request
-        // TODO: Also need to cache the users settings unless they're updated
-
         $user       = \Auth::user();
 
         // Setup the query

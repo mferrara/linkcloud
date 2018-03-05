@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Link;
+use App\Observers\LinkObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Setup the Link model's observer
+        Link::observe(LinkObserver::class);
     }
 
     /**
@@ -23,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // If we're not in production register the ide helper service provider
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }

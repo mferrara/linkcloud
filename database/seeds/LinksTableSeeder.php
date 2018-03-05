@@ -39,7 +39,7 @@ class LinksTableSeeder extends Seeder
         {
             $insert_count = rand(250,1000);
             if(App::environment() == 'production')
-                $insert_count = rand(2500,50000);
+                $insert_count = rand(250,3000);
             $user->importLinks($links->take($insert_count));
             echo $user->id.' imported '.number_format($user->links()->count()).PHP_EOL;
         }

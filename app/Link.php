@@ -54,13 +54,17 @@ class Link extends Model
 
     public function buildLink()
     {
-        $return = [
-            'href' => 'https://'.$this->domain->name.$this->path,
-            'anchor' => $this->anchor->text
-        ];
+        $return = \Cache::get($this->linkDataCacheKey());
+
         return $return;
     }
 
+    /**
+     * Build an HTML link from this link record
+     *
+     * @param bool $target_blank
+     * @return string
+     */
     public function buildHTMLLink($target_blank = false)
     {
         $data = $this->buildLink();
@@ -73,9 +77,72 @@ class Link extends Model
         return '<a href="'.$data['href'].'" '.$target.'>'.$data['anchor'].'</a>';
     }
 
+    /**
+     * Increment the links given views
+     */
     public function incrementGivenViews()
     {
         ProcessLinkViewChange::dispatch($this, 1);
+    }
+
+    /**
+     * Generate the link data cache key
+     *
+     * @return string
+     */
+    public function linkDataCacheKey()
+    {
+        return 'link_data.'.$this->id;
+    }
+
+    /**
+     * Cache the link data (href & anchor)
+     */
+    public function cacheLinkData()
+    {
+        $data = [
+            'href'      => 'https://'.$this->domain->name.$this->path,
+            'anchor'    => $this->anchor->text
+        ];
+        \Cache::forever($this->linkDataCacheKey(), $data);
+    }
+
+    /**
+     * Purge the cached link data
+     *
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function purgeLinkCachedData()
+    {
+        \Cache::delete($this->linkDataCacheKey());
+    }
+
+    /**
+     * Method to add this links representations to the redis link pool
+     */
+    public function addToLinkPool()
+    {
+        $count = $this->expected_links - $this->given_links;
+
+        if($count > 0)
+        {
+            $added = 0;
+            while($added < $count)
+            {
+                \Redis::sadd('link_pool', $this->id.'.'.$added);
+                $added++;
+            }
+        }
+    }
+
+    /**
+     * Return the count of entries in the link pool
+     *
+     * @return int
+     */
+    public static function linkPoolCount()
+    {
+        return \Redis::scard('link_pool');
     }
 
     /**
@@ -120,14 +187,33 @@ class Link extends Model
         // TODO: Better/faster distribution method
 
         // Get eligible users
-        $user_ids = User::usersEligibleForLinks();
+        // $user_ids = User::usersEligibleForLinks();
 
+        /*
         $links      = Link::whereIn('user_id', $user_ids)
             ->whereRaw('links.expected_links > links.given_links')
             ->inRandomOrder()
             ->orderBy('id', 'asc')
             ->take(3)
             ->get();
+        */
+
+        // Set max links
+        $link_count = 3;
+        // Counter for # of links retrieved
+        $retrieved  = 0;
+        while($retrieved < $link_count)
+        {
+            // Pull a random link from the link pool
+            $value   = \Redis::spop('link_pool');
+            // Get the link id from the redis value (formatted as link_id.#)
+            $link_id = explode('.', $value);
+            $link_id = $link_id[0];
+            // Add the link to array
+            $links[] = Link::find($link_id);
+            // Increment # of links retrieved
+            $retrieved++;
+        }
 
         // Setup return string and user point total
         $return             = '';

@@ -52,6 +52,10 @@
                                 <table class="table table-condensed">
                                     <tbody>
                                     <tr>
+                                        <td>Links in pool</td>
+                                        <td class="text-right">{{ number_format(\App\Link::linkPoolCount()) }}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Links Served</td>
                                         <td class="text-right"><strong>{{ number_format(\DB::table('links')->sum('given_links')) }}</strong></td>
                                     </tr>
