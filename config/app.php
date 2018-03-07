@@ -151,6 +151,7 @@ return [
          * Package Service Providers...
          */
         Grimthorr\LaravelUserSettings\ServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
 
         /*
          * Application Service Providers...
