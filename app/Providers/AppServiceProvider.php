@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Domain;
 use App\Link;
+use App\Observers\DomainObserver;
 use App\Observers\LinkObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,8 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Setup the Link model's observer
+        // Setup the model observers
         Link::observe(LinkObserver::class);
+        Domain::observe(DomainObserver::class);
     }
 
     /**
