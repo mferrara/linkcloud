@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Link;
+use App\Linkcloud\BotDetection;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,16 +19,37 @@ class ApiV1Controller extends Controller
      */
     public function getLinks(Request $request)
     {
-        $user = Auth::user();
+        // If there's no ip provided, return 500 code
+        if($request->has('ip') === false || $request->get('ip') == '')
+            return response("", 500);
 
-        if($user->token()->can('get-links'))
+        // If there's no user agent provided, return 500 code
+        if($request->has('ua') === false || $request->get('ua') == '')
+            return response("", 500);
+
+        // Determine if this is a bot/debug request
+        $ip_address = $request->get('ip');
+        $user_agent = $request->get('ua');
+        $bot        = BotDetection::isThisABot($ip_address, $user_agent);
+
+        if($bot)
         {
-            $return = Link::getLinks($user);
+            // Get the user
+            $user = Auth::user();
 
-            return $return;
+            // Confirm their provided token can get links
+            if($user->token()->can('get-links'))
+            {
+                // Get the link string to return
+                $return = Link::getLinks($user);
+
+                return $return;
+            }
+
+            return response("", 500);
         }
 
-        return response("You don't have permission to access that resource", 500);
+        return '';
     }
 
     /**
@@ -42,16 +64,11 @@ class ApiV1Controller extends Controller
 
         if($user->token()->can('post-links'))
         {
-            // TODO Validation on this posted file
-
             // Get posted document and import via the same process as the form upload import
-            $links_array    = Link::convertUploadedFileIntoLinksArray($request->file('linksfile')->openFile());
-            $import         = $user->importLinks($links_array);
-            $links_attempted_count = count($links_array);
+            $import         = $user->importCSVLinks($request->file('linksfile')->openFile());
             $new_links      = $import['new_links'];
 
             return json_encode([
-                'document_rows' => $links_attempted_count,
                 'links_added'   => $new_links
             ]);
         }
