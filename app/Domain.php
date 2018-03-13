@@ -55,24 +55,32 @@ class Domain extends Model
     /**
      * Lookup and store this domain's IP address and host
      *
-     * @return $this|Model|null|object|static
+     * @return $this|bool|Model|null|object|static
      */
     public function lookupDNS()
     {
         // Get the IP
         $ip_string = gethostbyname($this->name);
 
-        // Store the IP & determine it's host
-        $ip = Ip::findOrCreate($ip_string);
-
-        // Attach this IP to the domain if it's not already
-        if($this->ip_id !== $ip->id)
+        // gethostbyname() returns the domain name provided on failure
+        // If the response doesn't equal the input than we should have an IP
+        // TODO: More validation on the ip here
+        if($ip_string !== $this->name)
         {
-            $this->ip_id = $ip->id;
-            $this->save();
+            // Store the IP & determine it's host
+            $ip = Ip::findOrCreate($ip_string);
+
+            // Attach this IP to the domain if it's not already
+            if($this->ip_id !== $ip->id)
+            {
+                $this->ip_id = $ip->id;
+                $this->save();
+            }
+
+            return $ip;
         }
 
-        return $ip;
+        return false;
     }
 
     /**
