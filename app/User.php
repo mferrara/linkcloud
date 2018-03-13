@@ -75,6 +75,8 @@ use Laravel\Spark\User as SparkUser;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUsesTwoFactorAuth($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereVatId($value)
  * @mixin \Eloquent
+ * @property string|null $settings
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereSettings($value)
  */
 class User extends SparkUser
 {
@@ -133,6 +135,13 @@ class User extends SparkUser
     public function anchors()
     {
         return $this->hasMany(Anchor::class);
+    }
+
+    public function importCSVLinks(\SplFileObject $uploaded_file)
+    {
+        // TODO Validation on this posted file
+        $links_array    = Link::convertUploadedFileIntoLinksArray($uploaded_file);
+        return $this->importLinks($links_array);
     }
 
     public function importLinks($links_array)
