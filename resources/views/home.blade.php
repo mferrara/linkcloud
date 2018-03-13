@@ -12,6 +12,28 @@
                     <div class="panel-body">
                         Welcome to LinkCloud<br/><br />
                         Give links. Get links. Clean and simple.
+
+                        <br>
+                        <br>
+                        <p>WIP Sample PHP code snippet to include links on a page:</p>
+                        <pre>
+$lc_api_token = 'your_token_here';
+$lc_user_agent = null;
+if(isset($_SERVER['HTTP_USER_AGENT']))
+    $lc_user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+$lc_ip_address = null;
+if(isset($_SERVER['REMOTE_ADDR']))
+    $lc_ip_address = $_SERVER['REMOTE_ADDR'];
+
+$links = '';
+if( ! is_null($lc_user_agent) && ! is_null($lc_ip_address))
+{
+    $request_url = 'https://linkcloud.net/api/v1/links?api_token='.$lc_api_token.'&ip='.urlencode($lc_ip_address).'&ua='.urlencode($lc_user_agent);
+    $links = file_get_contents($request_url, false);
+}
+echo $links;
+                        </pre>
                     </div>
                 </div>
 
