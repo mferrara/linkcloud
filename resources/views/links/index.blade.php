@@ -36,21 +36,21 @@
                     <table class="table table-condensed">
                     	<thead>
                     		<tr>
+                                <th>Link</th>
                     			<th>URL</th>
                                 <th>Anchor Text</th>
                                 <th class="text-center">Expected Links</th>
                                 <th class="text-center">Given Links</th>
-                                <th class="text-right">Link</th>
                     		</tr>
                     	</thead>
                     	<tbody>
                         @foreach($links as $link)
                     		<tr>
+                                <td>{!! $link->buildHTMLLink() !!}</td>
                     			<td>{!! $link->domain->name.$link->path !!}</td>
                                 <td>{{ $link->anchor->text }}</td>
                                 <td class="text-center">{{ $link->expected_links }}</td>
                                 <td class="text-center">{{ $link->given_links }}</td>
-                                <td class="text-right">{!! $link->buildHTMLLink() !!}</td>
                     		</tr>
                         @endforeach
                     	</tbody>
