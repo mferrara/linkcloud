@@ -27,6 +27,6 @@ class CreateUseragentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('useragents');
+        Schema::dropIfExists('user_agents');
     }
 }
