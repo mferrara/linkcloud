@@ -24,9 +24,11 @@ class ApiV1DocumentationController extends Controller
             Send a GET request to<br /><br />
             ".route('home')."/api/v1/links<br /><br />
             With the following parameters:<br />
-            - api_token (Create in your <a href='https://linkcloud.test/settings/#/api' target='_blank'>API Settings</a> - be sure this token has permission to get links)<br /><br />
+            - api_token (Create in your <a href='https://linkcloud.test/settings/#/api' target='_blank'>API Settings</a> - be sure this token has permission to get links)<br />
+            - ip (client ip address, urlencode()'ed)<br />
+            - ua (client user agent, urlencode()'ed)<br /><br />
             Example:<br />
-            ".route('home')."/api/v1/links?api_token=xm1mo3moimio3j1ox3j<br /><br />
+            ".route('home')."/api/v1/links?api_token=xm1mo3moimio3j1ox3j&ip=".urlencode('66.249.76.94')."&ua=".urlencode('Googlebot/2.1 (+http://www.googlebot.com/bot.html)')."<br /><br />
             Response:<br />
             The response will be a string containing html formatted links configured as set in your settings.<br /><br />
             ";
