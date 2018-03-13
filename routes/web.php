@@ -38,20 +38,55 @@ Route::get('/test-get-links', function(\Illuminate\Http\Request $request)
     if($request->has('cycles'))
         $cycles = $request->get('cycles');
 
+    $uas = [
+        'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+        'Googlebot/2.1 (+http://www.googlebot.com/bot.html)',
+        'Googlebot/2.1 (+http://www.google.com/bot.html)',
+        'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)',
+        'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2226.0 Safari/537.36',
+        'Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko',
+    ];
+
+    $ips = [
+        '66.249.64.21',
+        '66.249.76.94',
+        '66.249.76.46',
+        '66.249.76.95',
+        '66.249.76.40',
+        '66.249.69.106',
+        '66.249.76.117',
+        '64.234.32.87',
+        '64.234.32.89',
+        '64.234.32.83',
+    ];
+
     while($count < $cycles)
     {
+        $request_ua     = $uas[array_rand($uas)];
+        $request_ip     = $ips[array_rand($ips)];
+        $request_url    = 'https://'.$request_domain.'/api/v1/links?api_token='.$token.'&ip='.urlencode($request_ip).'&ua='.urlencode($request_ua);
+
         $start = microtime(true);
-        $return = file_get_contents('https://'.$request_domain.'/api/v1/links?api_token='.$token, false, stream_context_create(["ssl"=>[
-            "verify_peer"=>false,
-            "verify_peer_name"=>false,
-        ]]));
+
+        $return = file_get_contents($request_url, false, stream_context_create([
+            "ssl"=>[
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ]
+        ]));
+
         $time_diff = microtime(true) - $start;
         $total_time = $total_time + $time_diff;
+        echo $return.'<br />';
         echo number_format($time_diff, 3).'s <br />';
         $count++;
         if($count >= $cycles)
             break;
     }
 
-    echo '<br />'.$count.' requests made over '.number_format($total_time, 2).'s with an average of '.number_format(($total_time / $count), 4).'s per request.';
+    if($count > 0)
+        echo '<br />'.$count.' requests made over '.number_format($total_time, 2).'s with an average of '.number_format(($total_time / $count), 4).'s per request.';
+    else
+        echo 'None';
 });
