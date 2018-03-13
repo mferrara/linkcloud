@@ -18,6 +18,7 @@
                         <p>WIP Sample PHP code snippet to include links on a page:</p>
                         <pre>
 $lc_api_token = 'your_token_here';
+$lc_max_request_time = 1; // # of seconds before link request is aborted
 $lc_user_agent = null;
 if(isset($_SERVER['HTTP_USER_AGENT']))
     $lc_user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -26,13 +27,18 @@ $lc_ip_address = null;
 if(isset($_SERVER['REMOTE_ADDR']))
     $lc_ip_address = $_SERVER['REMOTE_ADDR'];
 
-$links = '';
+$lc_links = '';
 if( ! is_null($lc_user_agent) && ! is_null($lc_ip_address))
 {
-    $request_url = 'https://linkcloud.net/api/v1/links?api_token='.$lc_api_token.'&ip='.urlencode($lc_ip_address).'&ua='.urlencode($lc_user_agent);
-    $links = file_get_contents($request_url, false);
+    $lc_request_url = 'https://linkcloud.net/api/v1/links?api_token='.$lc_api_token.'&ip='.urlencode($lc_ip_address).'&ua='.urlencode($lc_user_agent);
+    $lc_options = stream_context_create(array('http'=>
+        array(
+            'timeout' => $lc_max_request_time
+        )
+    ));
+    $links = file_get_contents($lc_request_url, false, $lc_options);
 }
-echo $links;
+echo $lc_links;
                         </pre>
                     </div>
                 </div>
