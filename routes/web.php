@@ -23,6 +23,9 @@ Route::post('/settings',        'UserController@updateSettings')->name('user.set
 
 Route::get('/docs/api/v1',      'ApiV1DocumentationController@index')->name('docs.api.v1.index');
 
+Route::get('/admin',            'AdminController@dashboard')->name('admin.dashboard');
+Route::get('/admin/users',      'AdminUserController@index')->name('admin.users.index');
+
 Route::get('/test-get-links', function(\Illuminate\Http\Request $request)
 {
     $requesting_user= \App\User::first();

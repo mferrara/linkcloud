@@ -34,6 +34,12 @@
                 <ul class="nav navbar-nav navbar-right">
                     @includeIf('spark::nav.user-right')
 
+                    @if (Spark::developer(Auth::user()->email))
+                        <li>
+                            <a class="" href="{!! route('admin.dashboard') !!}">Admin</a>
+                        </li>
+                    @endif
+
                     <!-- Notifications -->
                     <li>
                         <a @click="showNotifications" class="has-activity-indicator">
