@@ -202,6 +202,7 @@ class Link extends Model
         // Counter for # of links retrieved
         $retrieved  = 0;
         $attempts   = 0;
+        $links      = [];
         while($retrieved < $link_count)
         {
             // Pull a random link from the link pool
