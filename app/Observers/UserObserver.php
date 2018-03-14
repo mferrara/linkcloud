@@ -4,6 +4,7 @@
 namespace App\Observers;
 
 use App\Notifications\AdminUserSignup;
+use App\Notifications\UserSignup;
 use App\User;
 
 class UserObserver
@@ -16,6 +17,9 @@ class UserObserver
      */
     public function created(User $user)
     {
+        // Send the user welcome/registration email
+        $user->notify(new UserSignup($user));
+
         // Get admin user
         $admin_user = User::where('email', 'mferrara@gmail.com')->first();
 
