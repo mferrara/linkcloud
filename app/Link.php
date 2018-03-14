@@ -146,6 +146,16 @@ class Link extends Model
     }
 
     /**
+     * Empty the link pool redis list
+     *
+     * @return int
+     */
+    public static function clearLinkPool()
+    {
+        return \Redis::del('link_pool');
+    }
+
+    /**
      * The User::importLinks method looks for an array of strings (url,anchor) so we create that from uploaded CSV's here
      *
      * @param \SplFileObject $uploaded_file
