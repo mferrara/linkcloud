@@ -6,6 +6,13 @@
         <!-- Application Dashboard -->
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+                @if(Auth::user()->tokens()->count() == 0)
+                    <div class="alert alert-info">
+                    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    	<strong>API Token</strong> You haven't issued an API token yet! Head over to <a href="{{ route('user.settings') }}#/api">API settings</a> to
+                        issue a token.
+                    </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Dashboard</div>
 
@@ -15,8 +22,8 @@
 
                         <br>
                         <br>
-                        <p>WIP Sample PHP code snippet to include links on a page:</p>
-                        <pre>
+                        <p>Sample PHP code snippet to include links on a page <a class="btn btn-default btn-sm" href="#sample-snippet" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="sample-snippet">show</a></p>
+                        <pre class="collapse" id="sample-snippet">
 $lc_api_token = 'your_token_here';
 $lc_max_request_time = 1; // # of seconds before link request is aborted
 $lc_user_agent = null;
