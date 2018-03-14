@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Jobs\ProcessUserPointChange;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Spark\User as SparkUser;
 
 /**
@@ -80,6 +81,8 @@ use Laravel\Spark\User as SparkUser;
  */
 class User extends SparkUser
 {
+    use Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *

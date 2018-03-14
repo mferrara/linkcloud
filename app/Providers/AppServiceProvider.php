@@ -6,6 +6,8 @@ use App\Domain;
 use App\Link;
 use App\Observers\DomainObserver;
 use App\Observers\LinkObserver;
+use App\Observers\UserObserver;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         // Setup the model observers
         Link::observe(LinkObserver::class);
         Domain::observe(DomainObserver::class);
+        User::observe(UserObserver::class);
     }
 
     /**
