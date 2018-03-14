@@ -193,25 +193,15 @@ class Link extends Model
      */
     public static function getLinks(User $user)
     {
-        // Replace with links selected from pool
-        // TODO: Better/faster distribution method
-
         // Get eligible users
-        // $user_ids = User::usersEligibleForLinks();
-
-        /*
-        $links      = Link::whereIn('user_id', $user_ids)
-            ->whereRaw('links.expected_links > links.given_links')
-            ->inRandomOrder()
-            ->orderBy('id', 'asc')
-            ->take(3)
-            ->get();
-        */
+        $user_ids = User::usersEligibleForLinks();
+        // TODO: Need to check user points before serving these links
 
         // Set max links
         $link_count = 3;
         // Counter for # of links retrieved
         $retrieved  = 0;
+        $attempts   = 0;
         while($retrieved < $link_count)
         {
             // Pull a random link from the link pool
@@ -220,9 +210,27 @@ class Link extends Model
             $link_id = explode('.', $value);
             $link_id = $link_id[0];
             // Add the link to array
-            $links[] = Link::find($link_id);
-            // Increment # of links retrieved
-            $retrieved++;
+            $link    = Link::find($link_id);
+            if($link)
+            {
+                // Confirm this link belongs to a user eligible to receive links (has points)
+                if(in_array($link->user_id, $user_ids))
+                {
+                    $links[] = $link;
+                    // Increment # of links retrieved
+                    $retrieved++;
+                }
+                else
+                {
+                    // TODO: Put the link back in the redis list
+                }
+            }
+
+            // Increment the # of attempts to get a link
+            $attempts++;
+            // Break out of this loop if we've gone over 50
+            if($attempts > 50)
+                break;
         }
 
         // Setup return string and user point total
