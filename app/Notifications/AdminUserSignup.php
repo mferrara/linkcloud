@@ -10,7 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Laravel\Spark\Notifications\SparkChannel;
 use Laravel\Spark\Notifications\SparkNotification;
 
-class UserSignup extends Notification implements ShouldQueue
+class AdminUserSignup extends Notification implements ShouldQueue
 {
     use Queueable;
 
