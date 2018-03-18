@@ -194,6 +194,7 @@ class Link extends Model
     public static function getLinks(User $user)
     {
         // Get eligible users
+        // TODO: Cache this query into a redis key/value with an array of the elibible users every 1 min?
         $user_ids = User::usersEligibleForLinks();
         // TODO: Need to check user points before serving these links
 
@@ -211,6 +212,7 @@ class Link extends Model
             $link_id = explode('.', $value);
             $link_id = $link_id[0];
             // Add the link to array
+            // TODO: Setup a cache for the link objects so this isn't hitting MySQL during the request
             $link    = Link::find($link_id);
             if($link)
             {
@@ -223,7 +225,9 @@ class Link extends Model
                 }
                 else
                 {
-                    // TODO: Put the link back in the redis list
+                    // Put the link back in the redis link pool
+                    // TODO: Potentially queue this so it's not happening during the request
+                    \Redis::sadd('link_pool', $link->id.'.999');
                 }
             }
 
